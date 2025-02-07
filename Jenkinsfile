@@ -12,7 +12,7 @@ pipeline {
 
                     microservices.each { microservice ->
                         dir(microservice) {
-                            echo "Checking directory: $(pwd)"
+                            sh "pwd"
                             sh "ls -lah"
 
                             echo "Deploying ${microservice}..."
