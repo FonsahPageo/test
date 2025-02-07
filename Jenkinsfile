@@ -12,10 +12,10 @@ pipeline {
 
                     microservices.each { microservice ->
                         dir(microservice) {
-                            echo "🔍 Checking directory: $(pwd)"
+                            echo "Checking directory: $(pwd)"
                             sh "ls -lah"
 
-                            echo "🚀 Deploying ${microservice}..."
+                            echo "Deploying ${microservice}..."
                             sh """
                                 kubectl ${KUBE_CONFIG} apply -f deployment.yaml
                                 kubectl ${KUBE_CONFIG} apply -f service.yaml
@@ -33,7 +33,6 @@ pipeline {
 
                     microservices.each { microservice ->
                         echo "🔍 Verifying deployment for ${microservice}..."
-                        // Check if pods are running correctly
                         sh "kubectl ${KUBE_CONFIG} get pods --selector=app=${microservice} --no-headers"
                     }
                 }
@@ -43,13 +42,13 @@ pipeline {
 
     post {
         always {
-            echo '✅ Pipeline finished'
+            echo 'Pipeline finished'
         }
         success {
-            echo '🎉 Deployment was successful!'
+            echo 'Deployment was successful!'
         }
         failure {
-            echo '❌ Deployment failed!'
+            echo 'Deployment failed!'
         }
     }
 }
