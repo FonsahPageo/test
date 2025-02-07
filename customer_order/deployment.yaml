@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: customer-order
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: customer-order
+  template:
+    metadata:
+      labels:
+        app: customer-order
+    spec:
+      containers:
+        - name: customerorderskube
+          image: amberex/customerorderskube
+          ports:
+            - containerPort: 8080

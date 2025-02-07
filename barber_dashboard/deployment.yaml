@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: barber-dashboard
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: barber-dashboard
+  template:
+    metadata:
+      labels:
+        app: barber-dashboard
+    spec:
+      containers:
+        - name: barber-dashboardkube
+          image: amberex/barber_dashboardkube
+          ports:
+            - containerPort: 8080

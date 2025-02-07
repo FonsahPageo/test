@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: auth-client
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: auth-client
+  template:
+    metadata:
+      labels:
+        app: auth-client
+    spec:
+      containers:
+        - name: authclient-in-memorykube
+          image: amberex/authclient_in_memorykube
+          ports:
+          - containerPort: 8080
