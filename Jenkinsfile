@@ -3,11 +3,12 @@ pipeline {
     environment {
         KUBE_CONFIG = "--kubeconfig=/var/jenkins_home/.kube/config"
     }
+
     stages {
         stage('Deploy Microservices') {
             steps {
                 script {
-                    def microservices = sh(script: "ls -d */", returnStdout: true).trim().split("\n")
+                    def microservices = sh(script: "ls -d */ | sed 's:/*\$::'", returnStdout: true).trim().split("\n")
 
                     microservices.each { microservice ->
                         dir(microservice) {
@@ -22,10 +23,15 @@ pipeline {
             }
         }
 
-        stage('Verify deployment') {
+        stage('Verify Deployment') {
             steps {
                 script {
-                    sh 'kubectl --kubeconfig=/var/jenkins_home/.kube/config get pods'
+                    def microservices = sh(script: "ls -d */ | sed 's:/*\$::'", returnStdout: true).trim().split("\n")
+
+                    microservices.each { microservice ->
+                        echo "Verifying deployment for ${microservice}..."
+                        sh "kubectl ${KUBE_CONFIG} get pods -l app=${microservice}"
+                    }
                 }
             }
         }
