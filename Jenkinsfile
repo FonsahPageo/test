@@ -1,7 +1,7 @@
 pipeline {
     agent any
     environment {
-        KUBE_CONFIG = "--kubeconfig=/var/jenkins_home/config"
+        KUBE_CONFIG = "--kubeconfig=/var/jenkins_home/.kube/config"
     }
     stages {
         stage('Deploy Microservices') {
